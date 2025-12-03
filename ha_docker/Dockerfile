@@ -6,14 +6,24 @@ FROM $BUILD_FROM
 RUN apt-get update && apt-get install -y python3 python3-pip
 
 # Install requirements for add-on
-RUN \
-    apt-get update && apt-get install -y \
+# Системні залежності для Python, Playwright, Chromium
+RUN apk add --no-cache \
     python3 \
-    python3-pip \
-    python3-venv \
+    py3-pip \
     bash \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    chromium \
+    nss \
+    freetype \
+    harfbuzz \
+    ttf-freefont \
+    udev \
+    dumb-init
+
+# Встановлення Python-пакетів
+RUN pip3 install --no-cache-dir playwright fastapi uvicorn
+
+# Завантаження браузерів для Playwright
+RUN playwright install --with-deps
 
 # Copy data for add-on
 COPY run.sh /
