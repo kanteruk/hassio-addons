@@ -1,7 +1,7 @@
 {
-  "name": "Rf Service",
+  "name": "Rf ha docker",
   "version": "1.0.0",
-  "slug": "rf_addon",
+  "slug": "ha_docker",
   "description": "Rf custom Docker service",
   "startup": "services",
   "boot": "auto",
