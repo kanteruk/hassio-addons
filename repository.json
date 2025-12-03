@@ -1,5 +1,5 @@
 {
-    "name": "Kanteruk Ruslan addons repository",
+    "name": "Kanteruk Ruslan addons repository for Home Assistant",
     "url": "https://github.com/kanteruk/hassio-addons",
-    "maintainer": "@Kanteruk"
+    "maintainer": "Ruslan Kanteruk (@github.com/kanteruk)"
 }
