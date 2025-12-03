@@ -24,11 +24,11 @@ RUN apt-get update && apt-get install -y \
     libxdamage1 \
     libxrandr2 \
     libgbm1 \
-    libpango1.0-0 \
-    libasound2 \
+    libpango-1.0-0 \
     udev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
 
 # Встановлення Playwright та FastAPI
 RUN pip3 install --no-cache-dir playwright fastapi uvicorn
