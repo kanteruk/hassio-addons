@@ -1,7 +1,5 @@
 ARG BUILD_FROM
-FROM $BUILD_FROM
-#ARG BUILD_FROM=ubuntu:22.04
-#FROM $BUILD_FROM
+FROM ${BUILD_FROM}
 
 RUN apt-get update && apt-get install -y python3 python3-pip
 
