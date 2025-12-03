@@ -9,7 +9,7 @@
   "ports": {
     "8080/tcp": 8080
   },
-  "arch": ["amd64", "arm64"],
+  "arch": ["amd64", "aarch64"],
   "options": {},
   "schema": {},
   "map": [
