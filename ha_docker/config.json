@@ -13,4 +13,20 @@
   "options": {},
   "schema": {},
   "map": ["config:rw"]
+  "map": [
+    {
+      "type": "share",
+      "read_only": false
+    },
+    {
+      "type": "homeassistant_config",
+      "read_only": false,
+      "path": "/config"
+    },
+    {
+      "type": "addon_config",
+      "read_only": false,
+      "path": "/addon_config"
+    }
+  ]  
 }
