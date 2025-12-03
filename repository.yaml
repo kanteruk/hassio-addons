@@ -1,0 +1,4 @@
+# https://developers.home-assistant.io/docs/add-ons/repository#repository-configuration
+name: Home Assistant add-on repository by Ruslan Kanteruk
+url: 'https://github.com/kanteruk/hassio-addons'
+maintainer: Ruslan Kanteruk <kanteruk@gmail.com>
