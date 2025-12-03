@@ -5,21 +5,33 @@ RUN apt-get update && apt-get install -y python3 python3-pip
 
 # Install requirements for add-on
 # Системні залежності для Python, Playwright, Chromium
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install -y \
     python3 \
-    py3-pip \
+    python3-pip \
+    python3-venv \
     bash \
-    chromium \
-    nss \
-    freetype \
-    harfbuzz \
-    ttf-freefont \
+    curl \
+    wget \
+    gnupg \
+    unzip \
+    ca-certificates \
+    fonts-liberation \
+    libnss3 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libcups2 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxrandr2 \
+    libgbm1 \
+    libpango1.0-0 \
+    libasound2 \
     udev \
-    dumb-init
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Встановлення Python-пакетів
+# Встановлення Playwright та FastAPI
 RUN pip3 install --no-cache-dir playwright fastapi uvicorn
-
 # Завантаження браузерів для Playwright
 RUN playwright install --with-deps
 
