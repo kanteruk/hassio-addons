@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "slug": "ha_docker",
   "description": "Rf custom Docker service",
-  "url": "https://github.com/kanteruk/hassio-addons/tree/main/ha_docker"
-  "startup": "services",
+  "url": "https://github.com/kanteruk/hassio-addons/tree/main/ha_docker",
+  "startup": "services",  
   "boot": "auto",
   "ports": {
     "8080/tcp": 8080
