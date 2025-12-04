@@ -5,9 +5,9 @@ echo "RF Addon started (Ubuntu 22.04 + Python)"
 echo "Python version:"
 python3 --version
 
-# Вказуємо порт FastAPI з конфігурації аддону або дефолт
+export PATH="/opt/venv/bin:$PATH"
+
+echo "Starting RF Addon FastAPI + Playwright..."
 PORT="${PORT:-8080}"
 
-# Запуск FastAPI
 exec uvicorn main:app --host 0.0.0.0 --port $PORT
-
