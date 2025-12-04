@@ -6,6 +6,7 @@
   "url": "https://github.com/kanteruk/hassio-addons/tree/main/ha_docker",
   "startup": "services",  
   "boot": "auto",
+  "init": false,
   "ports": {
     "8080/tcp": 8080
   },
