@@ -6,6 +6,5 @@
     "armv7": "ghcr.io/home-assistant/armv7-base-ubuntu:24.04",
     "i386": "ghcr.io/home-assistant/i386-base-ubuntu:24.04"
   },
-  "squash": false,
-  "args": {}
+  "squash": false
 }
