@@ -1,6 +1,10 @@
 #!/usr/bin/with-contenv bash
 set -e
-echo "[RF ADDON] Starting FastAPI server..."
+
+# Отримати порт із змінної Home Assistant
+PORT=${PORT:-8008} 
+
+echo "[RF ADDON] Starting FastAPI server on port $PORT ..."
 export PATH="/opt/venv/bin:$PATH"
 cd /app
-exec uvicorn server:app --host 0.0.0.0 --port 8080
+exec uvicorn server:app --host 0.0.0.0 --port $PORT
