@@ -3,4 +3,4 @@ build_from:
   amd64: ghcr.io/home-assistant/amd64-base-ubuntu:24.04
   aarch64: ghcr.io/home-assistant/aarch64-base-ubuntu:24.04
 args:
-  UBUNTU_VERSION: 22.04
+  UBUNTU_VERSION: "22.04"
