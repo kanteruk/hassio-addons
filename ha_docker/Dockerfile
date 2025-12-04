@@ -44,11 +44,7 @@ RUN /opt/venv/bin/playwright install --with-deps
 #RUN chmod a+x /run.sh
 #CMD [ "/run.sh" ]
 
+# S6-Overlay
+WORKDIR /root
 ENTRYPOINT ["/init"]
 COPY rootfs /
-COPY rootfs/app/requirements.txt /tmp/requirements.txt
-#RUN /opt/venv/bin/pip install -r /tmp/requirements.txt
-#RUN /opt/venv/bin/python -m playwright install --with-deps chromium
-COPY rootfs/ /
-RUN chmod -R +x /etc/services.d/app
-
