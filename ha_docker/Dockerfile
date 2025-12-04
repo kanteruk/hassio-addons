@@ -43,6 +43,9 @@ RUN /opt/venv/bin/playwright install --with-deps
 #COPY run.sh /
 #RUN chmod a+x /run.sh
 #CMD [ "/run.sh" ]
+
+ENTRYPOINT ["/init"]
+COPY rootfs /
 COPY rootfs/app/requirements.txt /tmp/requirements.txt
 #RUN /opt/venv/bin/pip install -r /tmp/requirements.txt
 #RUN /opt/venv/bin/python -m playwright install --with-deps chromium
