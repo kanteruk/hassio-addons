@@ -40,7 +40,12 @@ RUN /opt/venv/bin/playwright install --with-deps
 
 
 # Copy data for add-on
-COPY run.sh /
-RUN chmod a+x /run.sh
+#COPY run.sh /
+#RUN chmod a+x /run.sh
+#CMD [ "/run.sh" ]
+COPY rootfs/app/requirements.txt /tmp/requirements.txt
+#RUN /opt/venv/bin/pip install -r /tmp/requirements.txt
+#RUN /opt/venv/bin/python -m playwright install --with-deps chromium
+COPY rootfs/ /
+RUN chmod -R +x /etc/services.d/app
 
-CMD [ "/run.sh" ]
