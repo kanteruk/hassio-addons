@@ -45,6 +45,8 @@ RUN /opt/venv/bin/playwright install --with-deps
 #CMD [ "/run.sh" ]
 
 # S6-Overlay
+RUN chmod +x /etc/services.d/app/run && \
+    chmod +x /etc/services.d/app/finish
 WORKDIR /root
 ENTRYPOINT ["/init"]
 COPY rootfs /
