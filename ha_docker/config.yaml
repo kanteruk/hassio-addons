@@ -9,19 +9,21 @@ boot: auto
 init: false
 
 ports:
-  "8010/tcp": 8010
+  "8010/tcp": null
 
+ports_description:
+  "8010/tcp": "FastAPI server port"
+  
 arch:
   - amd64
   - aarch64
 
-options: {
- port: 8010
-}
-schema: {
-  port: "int"
-}
-
+options:
+  port: 8010
+  
+schema:
+  port: int
+  
 map:
   - type: share
     read_only: false
