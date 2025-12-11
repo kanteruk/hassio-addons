@@ -1,40 +1,46 @@
 from fastapi import FastAPI, Query
 from fastapi.responses import HTMLResponse
-from playwright.sync_api import sync_playwright
+from playwright.async_api import async_playwright
 
 app = FastAPI()
 
 @app.get("/fetch", response_class=HTMLResponse)
-def fetch_page(
+async def fetch_page(
     url: str = Query(..., description="URL to load"),
     selector: str = Query(None, description="CSS selector to extract")
 ):
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
-        
-        # Чекаємо поки JS завершить роботу
-        page.goto(url, timeout=60000, wait_until="networkidle")
-        page.wait_for_load_state("domcontentloaded")
-        # Додаткова пауза на рендер (універсально)
-        page.wait_for_timeout(1000)  # 1 сек
-        
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        page = await browser.new_page()
+
+        # Завантажуємо сторінку і чекаємо завершення JS
+        await page.goto(url, timeout=60000, wait_until="networkidle")
+        await page.wait_for_load_state("domcontentloaded")
+        await page.wait_for_timeout(1000)
+
+        # Якщо передано selector — повертаємо елементи
         if selector:
             try:
-                page.wait_for_selector(selector, timeout=5000)
-                elements = page.query_selector_all(selector)
-                results = [el.inner_html() for el in elements]
-                browser.close()
+                await page.wait_for_selector(selector, timeout=5000)
+                elements = await page.query_selector_all(selector)
+                results = []
+
+                for el in elements:
+                    html = await el.inner_html()
+                    results.append(html)
+
+                await browser.close()
                 return HTMLResponse("".join(results))
             except:
-                browser.close()
+                await browser.close()
                 return HTMLResponse("")
 
-                
-        content = page.content()
-        browser.close()
+        # Інакше повертаємо всю сторінку
+        content = await page.content()
+        await browser.close()
         return HTMLResponse(content)
 
+
 @app.get("/")
-def root():
+async def root():
     return {"status": "ok", "message": "RF Addon FastAPI Server is running"}
