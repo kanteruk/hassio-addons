@@ -18,9 +18,9 @@ arch:
   - amd64
   - aarch64
 
-options:
+options: {}
  
-schema:
+schema: {}
   
 map:
   - type: share
