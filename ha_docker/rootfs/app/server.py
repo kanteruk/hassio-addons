@@ -19,37 +19,29 @@ async def fetch_page(
                 "--disable-software-rasterizer"
             ]
         )
-        
-        page = await browser.new_page()
+        try:
+            page = await browser.new_page()
 
-        # Завантажуємо сторінку і чекаємо завершення JS
-        await page.goto(url, timeout=60000, wait_until="networkidle")
-        await page.wait_for_load_state("domcontentloaded")
-        await page.wait_for_timeout(1000)
+            # Завантажуємо сторінку і чекаємо завершення JS
+            await page.goto(url, timeout=60000, wait_until="networkidle")
+            await page.wait_for_load_state("domcontentloaded")
+            await page.wait_for_timeout(1000)
 
-        # Якщо передано selector — повертаємо елементи
-        if selector:
-            try:
-                await page.wait_for_selector(selector, timeout=5000)
-                elements = await page.query_selector_all(selector)
-                results = []
+            # Якщо передано selector — повертаємо елементи
+            if selector:
+                try:
+                    await page.wait_for_selector(selector, timeout=5000)
+                    elements = await page.query_selector_all(selector)
+                    results = [await el.inner_html() for el in elements]
+                    return HTMLResponse("".join(results))
+                except:
+                    return HTMLResponse("")
 
-                for el in elements:
-                    html = await el.inner_html()
-                    results.append(html)
-
-                await browser.close()
-                return HTMLResponse("".join(results))
-            except:
-                await browser.close()
-                return HTMLResponse("")
-
-        # Інакше повертаємо всю сторінку
-        content = await page.content()
-        await browser.close()
-        return HTMLResponse(content)
-
-
+            # Інакше повертаємо всю сторінку
+            content = await page.content()
+            return HTMLResponse(content)
+        finally:
+            await browser.close()
 @app.get("/")
 async def root():
     return {"status": "ok", "message": "RF Addon FastAPI Server is running"}
