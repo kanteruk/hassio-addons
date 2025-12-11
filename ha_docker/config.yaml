@@ -1,0 +1,29 @@
+name: "Rf ha docker"
+version: "1.0.0"
+slug: "ha_docker"
+description: "Rf custom Docker service"
+url: "https://github.com/kanteruk/hassio-addons/tree/main/ha_docker"
+
+startup: services
+boot: auto
+init: false
+
+ports:
+  "8008/tcp": 8008
+
+arch:
+  - amd64
+  - aarch64
+
+options: {}
+schema: {}
+
+map:
+  - type: share
+    read_only: false
+  - type: homeassistant_config
+    read_only: false
+    path: "/config"
+  - type: addon_config
+    read_only: false
+    path: "/addon_config"
