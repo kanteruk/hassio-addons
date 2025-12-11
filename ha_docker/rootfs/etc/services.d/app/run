@@ -2,7 +2,7 @@
 set -e
 
 # Отримати порт із змінної Home Assistant
-PORT=${PORT:-8008} 
+PORT=${PORT:-8010} 
 
 echo "[RF ADDON] Starting FastAPI server on port $PORT ..."
 export PATH="/opt/venv/bin:$PATH"
