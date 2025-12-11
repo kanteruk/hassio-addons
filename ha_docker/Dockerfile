@@ -26,6 +26,13 @@ RUN apt-get update && apt-get install -y \
     libxrandr2 \
     libgbm1 \
     libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    libxkbcommon0 \
+    libxshmfence1 \
+    libasound2 \
+    libx11-xcb1 \
+    libgtk-3-0 \
+    libdrm2 \
     udev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
