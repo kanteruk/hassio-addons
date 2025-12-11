@@ -18,9 +18,10 @@ arch:
   - amd64
   - aarch64
 
-options: {}
- 
-schema: {}
+options:
+  port: 8010
+schema:
+  port: int
   
 map:
   - type: share
