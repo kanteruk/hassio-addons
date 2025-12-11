@@ -10,7 +10,16 @@ async def fetch_page(
     selector: str = Query(None, description="CSS selector to extract")
 ):
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
+        browser = await p.chromium.launch(
+            headless=True,
+            args=[
+                "--no-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-gpu",
+                "--disable-software-rasterizer"
+            ]
+        )
+        
         page = await browser.new_page()
 
         # Завантажуємо сторінку і чекаємо завершення JS
