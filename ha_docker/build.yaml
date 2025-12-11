@@ -1,9 +1,9 @@
----
 build_from:
-  amd64: "ghcr.io/home-assistant/amd64-base-ubuntu:24.04"
-  aarch64: "ghcr.io/home-assistant/aarch64-base-ubuntu:24.04"
-  armhf: "ghcr.io/home-assistant/armhf-base-ubuntu:24.04"
-  armv7: "ghcr.io/home-assistant/armv7-base-ubuntu:24.04"
-  i386: "ghcr.io/home-assistant/i386-base-ubuntu:24.04"  
+  amd64: "ghcr.io/home-assistant/amd64-base-ubuntu:22.04"
+  aarch64: "ghcr.io/home-assistant/aarch64-base-ubuntu:22.04"
+  armhf: "ghcr.io/home-assistant/armhf-base-ubuntu:22.04"
+  armv7: "ghcr.io/home-assistant/armv7-base-ubuntu:22.04"
+  i386: "ghcr.io/home-assistant/i386-base-ubuntu:22.04"
+
 args:
   UBUNTU_VERSION: "22.04"
