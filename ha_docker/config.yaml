@@ -9,14 +9,18 @@ boot: auto
 init: false
 
 ports:
-  "8008/tcp": 8008
+  "8010/tcp": 8010
 
 arch:
   - amd64
   - aarch64
 
-options: {}
-schema: {}
+options: {
+ port: 8010
+}
+schema: {
+  port: "int"
+}
 
 map:
   - type: share
