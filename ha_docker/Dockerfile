@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     unzip \
     ca-certificates \
-#    fonts-liberation \
+    fonts-liberation \
     libnss3 \
     libatk1.0-0 \
     libatk-bridge2.0-0 \
