@@ -42,9 +42,8 @@ RUN python3 -m venv /opt/venv
 # Активуємо середовище та встановлюємо пакети
 RUN /opt/venv/bin/pip install --upgrade pip
 RUN /opt/venv/bin/pip install playwright fastapi uvicorn
-# Встановлення браузерів для Playwright
-RUN /opt/venv/bin/playwright install --with-deps
-
+# Встановлення Playwright браузера
+RUN /opt/venv/bin/playwright install chromium
 
 # Copy data for add-on
 #COPY run.sh /
