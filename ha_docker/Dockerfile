@@ -33,14 +33,11 @@ RUN apt-get update && apt-get install -y \
     libdrm2 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-
-# Створюємо virtualenv
     && python3 -m venv /opt/venv \
-# Активуємо середовище та встановлюємо пакети
-    && /opt/venv/bin/pip install --upgrade pip \
-    && /opt/venv/bin/pip install playwright fastapi uvicorn \
-# Встановлення Playwright браузера
-    && /opt/venv/bin/playwright install chromium 
+    && /opt/venv/bin/pip install --no-cache-dir --upgrade pip \
+    && /opt/venv/bin/pip install --no-cache-dir playwright fastapi uvicorn \
+    && /opt/venv/bin/playwright install chromium \
+    && /opt/venv/bin/playwright install-deps chromium    
 
 # S6-Overlay
 WORKDIR /root
