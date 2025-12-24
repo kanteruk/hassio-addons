@@ -25,29 +25,26 @@ RUN apt-get update && apt-get install -y \
     libxdamage1 \
     libxrandr2 \
     libgbm1 \
-#    libpango-1.0-0 \
-#    libpangocairo-1.0-0 \
     libxkbcommon0 \
     libxshmfence1 \
     libasound2 \
     libx11-xcb1 \
     libgtk-3-0 \
     libdrm2 \
-#    udev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
 
 # Створюємо virtualenv
-    && python3 -m venv /opt/venv /
+    && python3 -m venv /opt/venv \
 # Активуємо середовище та встановлюємо пакети
     && /opt/venv/bin/pip install --upgrade pip \
-    && /opt/venv/bin/pip install playwright fastapi uvicorn /
+    && /opt/venv/bin/pip install playwright fastapi uvicorn \
 # Встановлення Playwright браузера
-    && /opt/venv/bin/playwright install chromium \
+    && /opt/venv/bin/playwright install chromium 
 
 # S6-Overlay
 WORKDIR /root
-ENTRYPOINT ["/init"]
 COPY rootfs /
 RUN chmod +x /etc/services.d/app/run && \
     chmod +x /etc/services.d/app/finish
+ENTRYPOINT ["/init"]
