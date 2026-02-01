@@ -37,7 +37,9 @@ RUN apt-get update && apt-get install -y \
     && /opt/venv/bin/pip install --no-cache-dir --upgrade pip \
     && /opt/venv/bin/pip install --no-cache-dir playwright fastapi uvicorn \
     && /opt/venv/bin/playwright install chromium \
-    && /opt/venv/bin/playwright install-deps chromium    
+    && /opt/venv/bin/playwright install-deps chromium \
+	&& /opt/venv/bin/pip install --no-cache-dir curl_cffi h2
+
 
 # S6-Overlay
 WORKDIR /root
