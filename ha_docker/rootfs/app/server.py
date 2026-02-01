@@ -53,9 +53,9 @@ async def fetch_page(
 @app.get("/rf_toe")
 async def rf_toe(
     group: str = Query(..., description="Group to fetch"),
-    time_param: str = Query(..., description="Time param for API")
+    time: str = Query(..., description="Time param for API")
 ):
-    data = await run_in_thread(fetch_group_data, group, time_param)
+    data = await run_in_thread(fetch_group_data, group, time)
     if data is None:
         return JSONResponse({"error": "Failed to fetch data"}, status_code=500)
     return JSONResponse(data)

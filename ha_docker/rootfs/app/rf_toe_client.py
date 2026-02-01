@@ -29,11 +29,11 @@ HEADERS = {
 }
 
 
-def fetch_group_data(group: str, time_param: str):
+def fetch_group_data(group: str, time: str):
     """Отримуємо дані по конкретній групі з RF TOE API"""
     before = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d') + "T00:00:00%2B00:00" 
     after = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d') + "T12:00:00%2B00:00" 
-    url = f"{API_BASE}?before={before}&after={after}&group[]={group}&time={time_param}"
+    url = f"{API_BASE}?before={before}&after={after}&group[]={group}&time={time}"
     _LOGGER.debug("RF TOE API URL: %s", url)
 
     try:
@@ -41,7 +41,31 @@ def fetch_group_data(group: str, time_param: str):
             response = s.get(url, headers=HEADERS, timeout=60)
             response.raise_for_status()
             data = response.json()
-            return data
+            
+            hydra = data['hydra:member']
+            if not hydra:  
+              return "<p>no data in json</p>".data            
+            item = hydra[0]
+            date_create = item.get('dateCreate', 'unknown')
+            date_graph = item.get('dateGraph', 'unknown')
+            data_json = item.get('dataJson', {})              
+              
+            key = list(data_json.keys())[0]
+            times = data_json[key]['times']
+
+            # Повертаємо HTML з div та класами
+            html = f"""
+            <div class="gpv-group" data-group="{group}">
+                <div class="gpv-meta">
+                    <span class="gpv-date-create">Date Create: {date_create}</span>
+                    <span class="gpv-date-graph">Date Graph: {date_graph}</span>
+                </div>
+                <div class="gpv-times">
+                    {"".join(f'<div class="gpv-time" data-time="{t}" data-value="{v}">{t}: {v}</div>' for t, v in times.items())}
+                </div>
+            </div>
+            """
+            return html
     except Exception as e:
         _LOGGER.error("Помилка отримання даних з RF TOE API для групи %s: %s", group, e)
         return None
