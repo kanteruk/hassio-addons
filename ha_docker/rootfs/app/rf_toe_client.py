@@ -70,16 +70,14 @@ def toe_fetch_data(group: str, time: str, kind: str):
                 if int(v) > 0
             }
             
-            date_call = datetime.now().isoformat()
-            
+           
             if not kind or kind.lower() == "json" :
                 return {
                     "group": group,
                     "date_create": date_create,
                     "date_graph": date_graph,
                     "times_off": filtered_times,
-                    "times": times,
-                    "date_call": date_call
+                    "times_count": len(times)
                 }
                         
             html = f"""

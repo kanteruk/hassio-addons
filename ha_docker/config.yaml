@@ -1,5 +1,5 @@
 name: "Rf ha docker"
-version: "1.0.051"
+version: "1.0.052"
 slug: "ha_docker"
 description: "Rf custom Docker service"
 url: "https://github.com/kanteruk/hassio-addons/tree/main/ha_docker"

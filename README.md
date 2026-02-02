@@ -1,1 +1,1 @@
-My readme
+Kanteruk Ruslan addons repository for Home Assistant
