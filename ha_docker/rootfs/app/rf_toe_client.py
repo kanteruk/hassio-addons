@@ -2,6 +2,7 @@
 from datetime import datetime, timedelta
 import logging
 from curl_cffi import requests
+from fastapi.responses import HTMLResponse, JSONResponse
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -29,7 +30,7 @@ HEADERS = {
 }
 
 
-def fetch_group_data(group: str, time: str, kind: str):
+def toe_fetch_data(group: str, time: str, kind: str):
     """Отримуємо дані по конкретній групі з RF TOE API"""
     before = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d') + "T00:00:00%2B00:00" 
     after = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d') + "T12:00:00%2B00:00" 
@@ -43,14 +44,15 @@ def fetch_group_data(group: str, time: str, kind: str):
             data = response.json()
             
             if not data:  
-              return "<p>data empty</p>"
+              return "data empty"
             hydra = data['hydra:member']
             if not hydra:  
-              return "<p>no data in json</p>"
+              return "no data in json(hydra:member)"
             item = hydra[0]
             date_create = item.get('dateCreate', 'unknown')
             date_graph = item.get('dateGraph', 'unknown')
             data_json = item.get('dataJson', {})              
+            datetime.now().isoformat(
               
             key = list(data_json.keys())[0]
             times = data_json[key]['times']
@@ -61,28 +63,31 @@ def fetch_group_data(group: str, time: str, kind: str):
                 if int(v) > 0
             }
             
-            if kind.lower() == "json":
+            date_call = datetime.now().isoformat()
+            
+            if not kind or kind.lower() == "json" :
                 return {
                     "group": group,
-                    "key": key,
                     "date_create": date_create,
                     "date_graph": date_graph,
-                    "times": filtered_times
+                    "times_off": filtered_times,
+                    "times": times,
+                    "date_call": date_call
                 }
                         
-            # Повертаємо HTML з div та класами
             html = f"""
             <div class="gpv-group" data-group="{group}">
                 <div class="gpv-meta">
                     <span class="gpv-date-create">{date_create}</span>
                     <span class="gpv-date-graph">{date_graph}</span>
+                    <span class="gpv-date-call">{date_call}</span>
                 </div>
                 <div class="gpv-times">
                     {"".join(f'<div class="gpv-time" data-time="{t}" data-value="{v}">{t}={v}</div>' for t, v in filtered_times.items())}
                 </div>
             </div>
             """
-            return html
+            return HTMLResponse(content=html)
     except Exception as e:
         _LOGGER.error("Помилка отримання даних з RF TOE API для групи %s: %s", group, e)
         return None
