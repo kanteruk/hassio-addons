@@ -43,7 +43,7 @@ def fetch_group_data(group: str, time: str):
             data = response.json()
             
             if not data:  
-              return "<p>data empty</p>".data            
+              return "<p>data empty</p>"
             hydra = data['hydra:member']
             if not hydra:  
               return "<p>no data in json</p>".data            
