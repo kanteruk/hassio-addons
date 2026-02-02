@@ -57,11 +57,11 @@ def fetch_group_data(group: str, time: str):
             html = f"""
             <div class="gpv-group" data-group="{group}">
                 <div class="gpv-meta">
-                    <span class="gpv-date-create">Date Create: {date_create}</span>
-                    <span class="gpv-date-graph">Date Graph: {date_graph}</span>
+                    <span class="gpv-date-create">{date_create}</span>
+                    <span class="gpv-date-graph">{date_graph}</span>
                 </div>
                 <div class="gpv-times">
-                    {"".join(f'<div class="gpv-time" data-time="{t}" data-value="{v}">{t}: {v}</div>' for t, v in times.items())}
+                    {"".join(f'<div class="gpv-time" data-time="{t}" data-value="{v}">{t}={v}</div>' for t, v in times.items())}
                 </div>
             </div>
             """
