@@ -42,6 +42,8 @@ def fetch_group_data(group: str, time: str):
             response.raise_for_status()
             data = response.json()
             
+            if data = '[]' 
+              return "<p>data empty</p>".data            
             hydra = data['hydra:member']
             if not hydra:  
               return "<p>no data in json</p>".data            
@@ -53,6 +55,12 @@ def fetch_group_data(group: str, time: str):
             key = list(data_json.keys())[0]
             times = data_json[key]['times']
 
+            filtered_times = {
+                t: int(v)
+                for t, v in times.items()
+                if int(v) > 0
+            }
+            
             # Повертаємо HTML з div та класами
             html = f"""
             <div class="gpv-group" data-group="{group}">
@@ -61,7 +69,7 @@ def fetch_group_data(group: str, time: str):
                     <span class="gpv-date-graph">{date_graph}</span>
                 </div>
                 <div class="gpv-times">
-                    {"".join(f'<div class="gpv-time" data-time="{t}" data-value="{v}">{t}={v}</div>' for t, v in times.items())}
+                    {"".join(f'<div class="gpv-time" data-time="{t}" data-value="{v}">{t}={v}</div>' for t, v in filtered_times.items())}
                 </div>
             </div>
             """
