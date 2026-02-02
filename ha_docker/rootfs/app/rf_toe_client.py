@@ -31,10 +31,10 @@ HEADERS = {
 
 
 def toe_fetch_data(group: str, time: str, kind: str):
-    """Отримуємо дані по конкретній групі з RF TOE API"""
-    before = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d') + "T00:00:00%2B00:00" 
-    after = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d') + "T12:00:00%2B00:00" 
-    url = f"{API_BASE}?before={before}&after={after}&group[]={group}&time={time}"
+    today = datetime.now()
+    before = (today + timedelta(days=1)).strftime('%Y-%m-%d') + "T00:00:00%2B00:00" 
+    after = (today - timedelta(days=1)).strftime('%Y-%m-%d') + "T12:00:00%2B00:00" 
+    url = f"{API_BASE}?before={before}&after={after}&group[]={group}&time={time}&rnd={today.timestamp()}"    
     _LOGGER.debug("RF TOE API URL: %s", url)
 
     try:
@@ -48,7 +48,15 @@ def toe_fetch_data(group: str, time: str, kind: str):
             hydra = data['hydra:member']
             if not hydra:  
               return "no data in json(hydra:member)"
-            item = hydra[0]
+            
+            today_index = 0
+            for idx, h in enumerate(hydra):
+                d = datetime.fromisoformat(h.get('dateGraph', 'unknown').replace('Z', '+00:00'))
+                if today.date() == d.date():
+                    today_index = idx 
+                    break
+
+            item = hydra[today_index]            
             date_create = item.get('dateCreate', 'unknown')
             date_graph = item.get('dateGraph', 'unknown')
             data_json = item.get('dataJson', {})              
