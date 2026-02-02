@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Query
 from fastapi.responses import HTMLResponse
 from playwright.async_api import async_playwright
-from rf_toe_client import fetch_group_data
+from rf_toe_client import toe_fetch_data
 import asyncio
 
 app = FastAPI()
