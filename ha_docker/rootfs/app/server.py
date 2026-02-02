@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Query
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from playwright.async_api import async_playwright
 from rf_toe_client import fetch_group_data
 import asyncio
@@ -53,13 +53,18 @@ async def fetch_page(
 @app.get("/rf_toe")
 async def rf_toe(
     group: str = Query(..., description="Group to fetch"),
-    time: str = Query(..., description="Time param for API")
+    time: str = Query(..., description="Time param for API"),
+    kind: str = Query(..., description="kind format")
 ):
-    data = await run_in_thread(fetch_group_data, group, time)
+    data = await run_in_thread(fetch_group_data, group, time, kind)
     if data is None:
         return {"status": "500", "message": "Failed to fetch data"}
-    return HTMLResponse(data)
-    
+
+    if kind.lower() == "json":
+        return JSONResponse(content=data)
+    else:
+        return HTMLResponse(data)        
+   
 @app.get("/")
 async def root():
     return {"status": "ok", "message": "RF Addon FastAPI Server is running"}

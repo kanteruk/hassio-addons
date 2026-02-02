@@ -29,7 +29,7 @@ HEADERS = {
 }
 
 
-def fetch_group_data(group: str, time: str):
+def fetch_group_data(group: str, time: str, kind: str):
     """Отримуємо дані по конкретній групі з RF TOE API"""
     before = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d') + "T00:00:00%2B00:00" 
     after = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d') + "T12:00:00%2B00:00" 
@@ -46,7 +46,7 @@ def fetch_group_data(group: str, time: str):
               return "<p>data empty</p>"
             hydra = data['hydra:member']
             if not hydra:  
-              return "<p>no data in json</p>".data            
+              return "<p>no data in json</p>"
             item = hydra[0]
             date_create = item.get('dateCreate', 'unknown')
             date_graph = item.get('dateGraph', 'unknown')
@@ -61,6 +61,15 @@ def fetch_group_data(group: str, time: str):
                 if int(v) > 0
             }
             
+            if kind.lower() == "json":
+                return {
+                    "group": group,
+                    "key": key,
+                    "date_create": date_create,
+                    "date_graph": date_graph,
+                    "times": filtered_times
+                }
+                        
             # Повертаємо HTML з div та класами
             html = f"""
             <div class="gpv-group" data-group="{group}">
