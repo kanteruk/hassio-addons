@@ -14,7 +14,7 @@ HEADERS = {
     "Accept": "application/json, text/plain, */*",
     "Accept-Language": "uk,en-US;q=0.9,en;q=0.8,ru;q=0.7",
     "Accept-Encoding": "gzip, deflate, br",
-#    "X-debug-key": "MTAzMi8xMDExMS810LY=",
+    "X-debug-key": "MTAzMi8xMDExMS810LY=",
     "Origin": "https://toe-poweron.inneti.net",
     "DNT": "1",
     "Sec-GPC": "1",
