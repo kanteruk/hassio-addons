@@ -71,13 +71,26 @@ def toe_fetch_data(group: str, time: str, kind: str):
             }
             
            
+            sorted_times = sorted(datetime.strptime(t, "%H:%M") for t in filtered_times.keys())
+            ranges = []
+            start_time = sorted_times[0]
+            for i in range(1, len(sorted_times)):
+                # Якщо різниця між поточним і попереднім часом більше 30 хв — це розрив
+                if sorted_times[i] - sorted_times[i-1] > timedelta(minutes=30):
+                    ranges.append(f"{start_time.strftime('%H:%M')} - {sorted_times[i-1].strftime('%H:%M')}")
+                    start_time = sorted_times[i]
+            # Додаємо останній діапазон
+            ranges.append(f"{start_time.strftime('%H:%M')} - {sorted_times[-1].strftime('%H:%M')}")
+
+
             if not kind or kind.lower() == "json" :
                 return {
                     "group": group,
                     "date_create": date_create,
                     "date_graph": date_graph,
                     "times_off": filtered_times,
-                    "times_count": len(times)
+                    "times_count": len(times),
+                    "ranges": ranges
                 }
                         
             html = f"""
