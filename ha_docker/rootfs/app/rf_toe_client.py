@@ -52,7 +52,6 @@ def toe_fetch_data(group: str, time: str, kind: str):
             date_create = item.get('dateCreate', 'unknown')
             date_graph = item.get('dateGraph', 'unknown')
             data_json = item.get('dataJson', {})              
-            datetime.now().isoformat(
               
             key = list(data_json.keys())[0]
             times = data_json[key]['times']
