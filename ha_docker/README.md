@@ -1,8 +1,8 @@
-#Доповнення крутить FastAPI сервер, до якого HomeAssistant звертається по УРЛу http://localhost:8010, порт налаштовується
-#Список пыдтримуваних ендпоінтів:
+## Доповнення крутить FastAPI сервер, до якого HomeAssistant звертається по УРЛу http://localhost:8010, порт налаштовується
+## Список підтримуваних ендпоінтів:
 
-1) Сервер сприймає такий ендпоінт http://localhost:8010/rf_toe?group=1.2&cityId=1111&streetId=11111&buildingNames=1а
-і видає графік погодинних відключень від Тернопіль-обленерго, по заданих параметрах.
+### 1) Ендпоінт **/rf_toe** - Графік погодинних відключень (ГПВ) від Тернопіль-обленерго з офіційного сайту [https://toe.com.ua](https://www.toe.com.ua/)
+приклад видає ГПВ, по заданих параметрах: http://localhost:8010/rf_toe?group=1.2&cityId=1111&streetId=11111&buildingNames=1а
 Приклад як використовую, додаю в configuration.yaml:
 ```
 rest:
@@ -27,4 +27,5 @@ rest:
         - ranges
 ```
 
-2) Ендпоінт http://localhost:8010/fetch?url=url.for.load&selector=.class1 - для парсингу динамічної веб сторінки
+### 2) Ендпоінт **.fetch** - Парсинг динамычних веб сторінок
+приклад http://localhost:8010/fetch?url=url.for.load&selector=.class1
