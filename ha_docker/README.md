@@ -1,6 +1,7 @@
-Доповнення крутить FastAPI сервер, до якого HomeAssistant звертається по УРЛу http://localhost:8010, порт налаштовується
+#Доповнення крутить FastAPI сервер, до якого HomeAssistant звертається по УРЛу http://localhost:8010, порт налаштовується
+#Список пыдтримуваних ендпоінтів:
 
-Сервер сприймає такий ендпоінт http://localhost:8010/rf_toe?group=1.2&cityId=1111&streetId=11111&buildingNames=1а
+1) Сервер сприймає такий ендпоінт http://localhost:8010/rf_toe?group=1.2&cityId=1111&streetId=11111&buildingNames=1а
 і видає графік погодинних відключень від Тернопіль-обленерго, по заданих параметрах.
 Приклад як використовую, додаю в configuration.yaml:
 ```
@@ -24,3 +25,6 @@ rest:
         - times_off
         - times_count
         - ranges
+```
+
+2) Ендпоінт /fetch - для парсингу динамічної веб сторінки
