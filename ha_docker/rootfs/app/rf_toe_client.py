@@ -8,19 +8,19 @@ import urllib.parse
 
 _LOGGER = logging.getLogger(__name__)
 
-API_BASE = "https://api-toe-poweron.inneti.net/api/a_gpv_g"
+API_BASE = "https://api-poweron.toe.com.ua/api/a_gpv_g"
 
 HEADERS = {
-    "Host": "api-toe-poweron.inneti.net",
+    "Host": "api-poweron.toe.com.ua",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0",
     "Accept": "application/json, text/plain, */*",
     "Accept-Language": "uk,en-US;q=0.9,en;q=0.8,ru;q=0.7",
     "Accept-Encoding": "gzip, deflate, br",
-    "Origin": "https://toe-poweron.inneti.net",
+    "Origin": "https://poweron.toe.com.ua",
     "DNT": "1",
     "Sec-GPC": "1",
     "Connection": "keep-alive",
-    "Referer": "https://toe-poweron.inneti.net/",
+    "Referer": "https://poweron.toe.com.ua/",
     "Sec-Fetch-Dest": "empty",
     "Sec-Fetch-Mode": "cors",
     "Sec-Fetch-Site": "same-site",
