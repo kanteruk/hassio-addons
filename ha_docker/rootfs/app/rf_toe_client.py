@@ -78,10 +78,10 @@ def toe_fetch_data(group: str, time: str, kind: str):
             for i in range(1, len(sorted_times)):
                 # Якщо різниця між поточним і попереднім часом більше 30 хв — це розрив
                 if sorted_times[i] - sorted_times[i-1] > timedelta(minutes=30):
-                    ranges.append(f"{start_time.strftime('%H:%M')} - {sorted_times[i-1].strftime('%H:%M')}")
+                    ranges.append(f"{start_time.strftime('%H:%M')}-{sorted_times[i-1].strftime('%H:%M')}")
                     start_time = sorted_times[i]
             # Додаємо останній діапазон
-            ranges.append(f"{start_time.strftime('%H:%M')} - {sorted_times[-1].strftime('%H:%M')}")
+            ranges.append(f"{start_time.strftime('%H:%M')}-{sorted_times[-1].strftime('%H:%M')}")
 
 
             if not kind or kind.lower() == "json" :
