@@ -80,7 +80,7 @@ def toe_fetch_data(group: str, cityId, streetId, buildingNames: str, kind: str):
                 if tomorrow.date() == d.date():
                     tomorrow_index = idx 
 
-            item = hydra[today_index]            
+            item = hydra[today_index] 
             date_create = item.get('dateCreate', 'unknown')
             date_graph = item.get('dateGraph', 'unknown')
             data_json = item.get('dataJson', {})              
@@ -98,6 +98,10 @@ def toe_fetch_data(group: str, cityId, streetId, buildingNames: str, kind: str):
 
 
             if tomorrow_index >= 0:
+                item = hydra[tomorrow_index] 
+                data_json = item.get('dataJson', {})              
+                key = list(data_json.keys())[0]
+                times = data_json[key]['times']
                 times_off2 = {
                     t: int(v)
                     for t, v in times.items()
