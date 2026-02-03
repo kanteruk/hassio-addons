@@ -27,5 +27,5 @@ rest:
         - ranges
 ```
 
-### 2) Ендпоінт **.fetch** - Парсинг динамычних веб сторінок
+### 2) Ендпоінт **.fetch** - Парсинг динамічних веб сторінок
 приклад http://localhost:8010/fetch?url=url.for.load&selector=.class1
