@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import logging
 from curl_cffi import requests
 from fastapi.responses import HTMLResponse, JSONResponse
+import base64
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -14,7 +15,6 @@ HEADERS = {
     "Accept": "application/json, text/plain, */*",
     "Accept-Language": "uk,en-US;q=0.9,en;q=0.8,ru;q=0.7",
     "Accept-Encoding": "gzip, deflate, br",
-    "X-debug-key": "MTAzMi8xMDExMS810LY=",
     "Origin": "https://toe-poweron.inneti.net",
     "DNT": "1",
     "Sec-GPC": "1",
@@ -34,12 +34,16 @@ def toe_fetch_data(group: str, time: str, kind: str):
     today = datetime.now()
     before = (today + timedelta(days=1)).strftime('%Y-%m-%d') + "T00:00:00%2B00:00" 
     after = (today - timedelta(days=1)).strftime('%Y-%m-%d') + "T12:00:00%2B00:00" 
-    url = f"{API_BASE}?before={before}&after={after}&group[]={group}&time={time}&rnd={today.timestamp()}"    
+    url = f"{API_BASE}?before={before}&after={after}&group[]={group}&time={time.replace('/', '')}&rnd={today.timestamp()}"    
     _LOGGER.debug("RF TOE API URL: %s", url)
+
+    headers_local = HEADERS.copy()
+    headers_local["X-debug-key"] = base64.b64encode(time.encode('utf-8')).decode('utf-8')
+    #print(headers_local)
 
     try:
         with requests.Session(impersonate="firefox") as s:
-            response = s.get(url, headers=HEADERS, timeout=60)
+            response = s.get(url, headers=headers_local, timeout=60)
             response.raise_for_status()
             data = response.json()
             
