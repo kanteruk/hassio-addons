@@ -97,8 +97,11 @@ def toe_fetch_data(group: str, cityId, streetId, buildingNames: str, kind: str):
             ranges = times_to_ranges(times_off)
 
 
+            ranges_tomorrow = None
+            tomorrow_create = None  
             if tomorrow_index >= 0:
                 item = hydra[tomorrow_index] 
+                tomorrow_create = item.get('dateCreate', None)
                 data_json = item.get('dataJson', {})              
                 key = list(data_json.keys())[0]
                 times = data_json[key]['times']
@@ -108,8 +111,6 @@ def toe_fetch_data(group: str, cityId, streetId, buildingNames: str, kind: str):
                     if int(v) > 0
                 }
                 ranges_tomorrow = times_to_ranges(times_off2)
-            else:
-                ranges_tomorrow = []  
 
 
             if not kind or kind.lower() == "json" :
@@ -120,7 +121,8 @@ def toe_fetch_data(group: str, cityId, streetId, buildingNames: str, kind: str):
                     "times_off": times_off,
                     "times_count": times_count,
                     "ranges": ranges,
-                    "ranges_tomorrow": ranges_tomorrow
+                    "ranges_tomorrow": ranges_tomorrow,
+                    "tomorrow_create": tomorrow_create
                 }
                         
             html = f"""
