@@ -27,4 +27,4 @@ rest:
         - ranges
 ```
 
-2) Ендпоінт /fetch - для парсингу динамічної веб сторінки
+2) Ендпоінт http://localhost:8010/fetch?url=url.for.load&selector=.class1 - для парсингу динамічної веб сторінки
