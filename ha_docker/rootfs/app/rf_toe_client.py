@@ -63,6 +63,7 @@ def toe_fetch_data(group: str, time: str, kind: str):
               
             key = list(data_json.keys())[0]
             times = data_json[key]['times']
+            times_count = len(times) 
 
             filtered_times = {
                 t: int(v)
@@ -89,7 +90,7 @@ def toe_fetch_data(group: str, time: str, kind: str):
                     "date_create": date_create,
                     "date_graph": date_graph,
                     "times_off": filtered_times,
-                    "times_count": len(times),
+                    "times_count": times_count,
                     "ranges": ranges
                 }
                         
@@ -98,7 +99,7 @@ def toe_fetch_data(group: str, time: str, kind: str):
                 <div class="gpv-meta">
                     <span class="gpv-date-create">{date_create}</span>
                     <span class="gpv-date-graph">{date_graph}</span>
-                    <span class="gpv-date-call">{date_call}</span>
+                    <span class="gpv-times-count">{times_count}</span>
                 </div>
                 <div class="gpv-times">
                     {"".join(f'<div class="gpv-time" data-time="{t}" data-value="{v}">{t}={v}</div>' for t, v in filtered_times.items())}
