@@ -30,6 +30,20 @@ HEADERS = {
     "TE": "trailers"
 }
 
+def times_to_ranges(times):
+    ranges = []
+    if not times:
+        return ranges
+    sorted_times = sorted(datetime.strptime(t, "%H:%M") for t in times.keys())
+    start_time = sorted_times[0]
+    for i in range(1, len(sorted_times)):
+        # Якщо різниця між поточним і попереднім часом більше 30 хв — це розрив
+        if sorted_times[i] - sorted_times[i-1] > timedelta(minutes=30):
+            ranges.append(f"{start_time.strftime('%H:%M')}-{sorted_times[i-1].strftime('%H:%M')}")
+            start_time = sorted_times[i]
+    # Додаємо останній діапазон
+    ranges.append(f"{start_time.strftime('%H:%M')}-{sorted_times[-1].strftime('%H:%M')}")
+    return ranges
 
 def toe_fetch_data(group: str, cityId, streetId, buildingNames: str, kind: str):
     buildingNames = urllib.parse.unquote(buildingNames)
@@ -57,11 +71,14 @@ def toe_fetch_data(group: str, cityId, streetId, buildingNames: str, kind: str):
               return "no data in json(hydra:member)"
             
             today_index = 0
+            tomorrow_index = -1
+            tomorrow = today + timedelta(days=1)
             for idx, h in enumerate(hydra):
                 d = datetime.fromisoformat(h.get('dateGraph', 'unknown').replace('Z', '+00:00'))
                 if today.date() == d.date():
                     today_index = idx 
-                    break
+                if tomorrow.date() == d.date():
+                    tomorrow_index = idx 
 
             item = hydra[today_index]            
             date_create = item.get('dateCreate', 'unknown')
@@ -72,23 +89,23 @@ def toe_fetch_data(group: str, cityId, streetId, buildingNames: str, kind: str):
             times = data_json[key]['times']
             times_count = len(times) 
 
-            filtered_times = {
+            times_off = {
                 t: int(v)
                 for t, v in times.items()
                 if int(v) > 0
             }
-            
-           
-            sorted_times = sorted(datetime.strptime(t, "%H:%M") for t in filtered_times.keys())
-            ranges = []
-            start_time = sorted_times[0]
-            for i in range(1, len(sorted_times)):
-                # Якщо різниця між поточним і попереднім часом більше 30 хв — це розрив
-                if sorted_times[i] - sorted_times[i-1] > timedelta(minutes=30):
-                    ranges.append(f"{start_time.strftime('%H:%M')}-{sorted_times[i-1].strftime('%H:%M')}")
-                    start_time = sorted_times[i]
-            # Додаємо останній діапазон
-            ranges.append(f"{start_time.strftime('%H:%M')}-{sorted_times[-1].strftime('%H:%M')}")
+            ranges = times_to_ranges(times_off)
+
+
+            if tomorrow_index >= 0:
+                times_off2 = {
+                    t: int(v)
+                    for t, v in times.items()
+                    if int(v) > 0
+                }
+                ranges_tomorrow = times_to_ranges(times_off2)
+            else:
+                ranges_tomorrow = []  
 
 
             if not kind or kind.lower() == "json" :
@@ -96,9 +113,10 @@ def toe_fetch_data(group: str, cityId, streetId, buildingNames: str, kind: str):
                     "group": group,
                     "date_create": date_create,
                     "date_graph": date_graph,
-                    "times_off": filtered_times,
+                    "times_off": times_off,
                     "times_count": times_count,
-                    "ranges": ranges
+                    "ranges": ranges,
+                    "ranges_tomorrow": ranges_tomorrow
                 }
                         
             html = f"""
@@ -109,7 +127,7 @@ def toe_fetch_data(group: str, cityId, streetId, buildingNames: str, kind: str):
                     <span class="gpv-times-count">{times_count}</span>
                 </div>
                 <div class="gpv-times">
-                    {"".join(f'<div class="gpv-time" data-time="{t}" data-value="{v}">{t}={v}</div>' for t, v in filtered_times.items())}
+                    {"".join(f'<div class="gpv-time" data-time="{t}" data-value="{v}">{t}={v}</div>' for t, v in times_off.items())}
                 </div>
             </div>
             """
