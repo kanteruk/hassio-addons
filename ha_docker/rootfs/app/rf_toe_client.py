@@ -4,6 +4,7 @@ import logging
 from curl_cffi import requests
 from fastapi.responses import HTMLResponse, JSONResponse
 import base64
+import urllib.parse
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -31,6 +32,7 @@ HEADERS = {
 
 
 def toe_fetch_data(group: str, cityId, streetId, buildingNames: str, kind: str):
+    buildingNames = urllib.parse.unquote(buildingNames)
     today = datetime.now()
     before = (today + timedelta(days=1)).strftime('%Y-%m-%d') + "T00:00:00%2B00:00" 
     after = (today - timedelta(days=1)).strftime('%Y-%m-%d') + "T12:00:00%2B00:00" 
