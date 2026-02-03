@@ -30,15 +30,16 @@ HEADERS = {
 }
 
 
-def toe_fetch_data(group: str, time: str, kind: str):
+def toe_fetch_data(group: str, cityId, streetId, buildingNames: str, kind: str):
     today = datetime.now()
     before = (today + timedelta(days=1)).strftime('%Y-%m-%d') + "T00:00:00%2B00:00" 
     after = (today - timedelta(days=1)).strftime('%Y-%m-%d') + "T12:00:00%2B00:00" 
-    url = f"{API_BASE}?before={before}&after={after}&group[]={group}&time={time.replace('/', '')}&rnd={today.timestamp()}"    
+    time = (cityId + streetId + buildingNames).replace('/', '')
+    url = f"{API_BASE}?before={before}&after={after}&group[]={group}&time={time}&rnd={today.timestamp()}"    
     _LOGGER.debug("RF TOE API URL: %s", url)
 
     headers_local = HEADERS.copy()
-    headers_local["X-debug-key"] = base64.b64encode(time.encode('utf-8')).decode('utf-8')
+    headers_local["X-debug-key"] = base64.b64encode((cityId +'/'+ streetId +'/'+ buildingNames).encode('utf-8')).decode('utf-8')
     #print(headers_local)
 
     try:
