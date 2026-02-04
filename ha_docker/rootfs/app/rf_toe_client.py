@@ -67,8 +67,6 @@ def toe_fetch_data(group: str, cityId, streetId, buildingNames: str, kind: str):
             if not data:  
               return "data empty"
             hydra = data['hydra:member']
-            if not hydra:  
-              return "no data in json(hydra:member)"
             
             today_index = 0
             tomorrow_index = -1
