@@ -1,4 +1,3 @@
-# rf_toe_client.py
 from datetime import datetime, timedelta
 import logging
 from curl_cffi import requests
@@ -52,11 +51,11 @@ def toe_fetch_data(group: str, cityId, streetId, buildingNames: str, kind: str):
     after = (today - timedelta(days=1)).strftime('%Y-%m-%d') + "T12:00:00%2B00:00" 
     time = (cityId + streetId + buildingNames).replace('/', '')
     url = f"{API_BASE}?before={before}&after={after}&group[]={group}&time={time}&rnd={today.timestamp()}"    
-    _LOGGER.debug("RF TOE API URL: %s", url)
+    _LOGGER.debug("toe_fetch_data URL: %s", url)
 
     headers_local = HEADERS.copy()
     headers_local["X-debug-key"] = base64.b64encode((cityId +'/'+ streetId +'/'+ buildingNames).encode('utf-8')).decode('utf-8')
-    #print(headers_local)
+    _LOGGER.debug("X-debug-key: %s", headers_local["X-debug-key"])
 
     try:
         with requests.Session(impersonate="firefox") as s:
