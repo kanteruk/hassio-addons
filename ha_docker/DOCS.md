@@ -25,6 +25,8 @@ rest:
         - times_off
         - times_count
         - ranges
+        - ranges_tomorrow
+        - tomorrow_create
 ```
 
 ### 2) Ендпоінт **.fetch** - Парсинг динамічних веб сторінок
