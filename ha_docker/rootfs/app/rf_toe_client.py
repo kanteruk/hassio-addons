@@ -45,6 +45,7 @@ def times_to_ranges(times):
     return ranges
 
 def toe_fetch_data(group: str, cityId, streetId, buildingNames: str, kind: str):
+    buildingNames_ = buildingNames;
     buildingNames = urllib.parse.unquote(buildingNames)
     today = datetime.now()
     before = (today + timedelta(days=1)).strftime('%Y-%m-%d') + "T00:00:00%2B00:00" 
@@ -54,7 +55,7 @@ def toe_fetch_data(group: str, cityId, streetId, buildingNames: str, kind: str):
     _LOGGER.debug("toe_fetch_data URL: %s", url)
 
     headers_local = HEADERS.copy()
-    headers_local["X-debug-key"] = base64.b64encode((cityId +'/'+ streetId +'/'+ buildingNames).encode('utf-8')).decode('utf-8')
+    headers_local["X-debug-key"] = base64.b64encode((cityId +'/'+ streetId +'/'+ buildingNames_).encode('utf-8')).decode('utf-8')
     _LOGGER.debug("X-debug-key: %s", headers_local["X-debug-key"])
 
     try:
