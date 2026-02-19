@@ -63,10 +63,11 @@ def toe_fetch_data(group: str, cityId, streetId, buildingNames: str, kind: str):
             response = s.get(url, headers=headers_local, timeout=60)
             response.raise_for_status()
             data = response.json()
-            
             if not data:  
               return "data empty"
             hydra = data['hydra:member']
+            if not hydra:  
+              return "hydra empty"
             
             today_index = 0
             tomorrow_index = -1
